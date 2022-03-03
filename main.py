@@ -5,8 +5,7 @@ from time import sleep
 # checks if the code is vaild
 def checkCode(currentCash, currentMultiplier, Code, redeemedCodes):
     codes = {
-        "Code1": "Release",
-        "DevCode": "d3Vc0D3"
+        # I will not put the codes here for game purposes :)
     }
 
     Code1 = codes.get('Code1')
