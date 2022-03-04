@@ -5,19 +5,24 @@ from time import sleep
 # checks if the code is vaild
 def checkCode(currentCash, currentMultiplier, Code, redeemedCodes):
     codes = {
-        # Not putting the codes here because like come on :/
+        # Hidden for a reason lol
     }
 
     Code1 = codes.get('Code1')
+    Code2 = codes.get('Code2')
     DevCode = codes.get('DevCode')
 
     if Code == Code1 and Code not in redeemedCodes:
         print(f'\n/---------------------------\\\nThe code {Code} has been redeemed Successfully for $100')
         currentCash += 100
         return currentCash, currentMultiplier, Code, True, Code1
+    elif Code == Code2 and Code not in redeemedCodes:
+        print(f'\n/---------------------------\\\nThe code {Code} has been redeemed Successfully for $200')
+        currentCash += 200
+        return currentCash, currentMultiplier, Code, True, Code2
     elif Code == DevCode and Code not in redeemedCodes:
-        print(f'\n/---------------------------\\\nThe code {Code} has been redeemed Successfully for $694201337')
-        currentCash += 694201337
+        print(f'\n/---------------------------\\\nThe code {Code} has been redeemed Successfully for $10000')
+        currentCash += 10000
         return currentCash, currentMultiplier, Code, True, DevCode
     else:
         print('\n/---------------------------\\\nYour code is invalid/Already Redeemed!')
@@ -26,7 +31,7 @@ def checkCode(currentCash, currentMultiplier, Code, redeemedCodes):
 
 # adds a shop to our game
 def shop(currentCash, currentMultiplier, currentCost, currentRebirth, currentRebCost):
-    opt = input(f'\n/---------------------------\\\nYou Have ${currentCash}\n\n1. upm to upgrade multiplier\n2. reb to do a rebirth\n\\---------------------------/\n')
+    opt = input(f'\n/---------------------------\\\nYou Have ${currentCash}\n\n1. upm to upgrade multiplier\n2. maxupm to Max Upgrade your Multiplier\n3. reb to do a rebirth\n\\---------------------------/\n')
     opt = opt.lower()
 
     if opt == 'reb':
@@ -48,7 +53,7 @@ def shop(currentCash, currentMultiplier, currentCost, currentRebirth, currentReb
         else: return currentCash, currentMultiplier, currentCost, currentRebirth, currentRebCost
 
     elif opt == 'upm':
-        opt2 = input(f'\n/---------------------------\\\nYou Have ${currentCash}\n\nThis upgrade costs {currentCost}. Y/n: ')
+        opt2 = input(f'\n/---------------------------\\\nYou Have ${currentCash}\n\nThis upgrade costs ${currentCost}. Y/n: ')
         opt2 = opt2.lower()
 
         if opt2 == 'y':
@@ -62,6 +67,22 @@ def shop(currentCash, currentMultiplier, currentCost, currentRebirth, currentReb
                 print('\n/---------------------------\\\nYou don\'t have enough for this transaction!')
                 return currentCash, currentMultiplier, currentCost, currentRebirth, currentRebCost
         else: return currentCash, currentMultiplier, currentCost, currentRebirth, currentRebCost
+
+    elif opt == 'maxupm':
+        opt3 = input(f'\n/---------------------------\\\nAre you sure this will buy max Multiplier Upgrades. Y/n: ')
+        opt3 = opt3.lower()
+        if opt3 == 'y':
+            while currentCash >= currentCost:
+                currentCash -= currentCost
+                currentMultiplier += 1
+                currentCost += 100
+
+            print(f'\nYour multiplier is now {currentMultiplier}')
+            return currentCash, currentMultiplier, currentCost, currentRebirth, currentRebCost
+
+        else:
+            return currentCash, currentMultiplier, currentCost, currentRebirth, currentRebCost
+
     else: return currentCash, currentMultiplier, currentCost, currentRebirth, currentRebCost
 
 # adds cash
@@ -133,6 +154,7 @@ while run:
             f = open("data.json","w")
 
             data = {
+                "MESSAGE PLEASE READ": "IF YOU MODIFY THIS FILE IT MAY CAUSE YOUR SAVE FILE TO BE CORRUPTED (You have been warned!)",
                 "cash": cash,
                 "multiplier": multiplier,
                 "multiCost": multiCost,
