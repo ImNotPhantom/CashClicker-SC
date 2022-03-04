@@ -1,15 +1,18 @@
 import json
+import base64
 import os.path
+from itertools import cycle
 from time import sleep
 
 # checks if the code is vaild
 def checkCode(currentCash, currentMultiplier, Code, redeemedCodes):
     codes = {
-        # Hidden for a reason lol
+        # Hidden becasue op code is in here for $10000
     }
 
     Code1 = codes.get('Code1')
     Code2 = codes.get('Code2')
+    Code3 = codes.get('Code3')
     DevCode = codes.get('DevCode')
 
     if Code == Code1 and Code not in redeemedCodes:
@@ -20,6 +23,10 @@ def checkCode(currentCash, currentMultiplier, Code, redeemedCodes):
         print(f'\n/---------------------------\\\nThe code {Code} has been redeemed Successfully for $200')
         currentCash += 200
         return currentCash, currentMultiplier, Code, True, Code2
+    elif Code == Code3 and Code not in redeemedCodes:
+        print(f'\n/---------------------------\\\nThe code {Code} has been redeemed Successfully for $300')
+        currentCash += 300
+        return currentCash, currentMultiplier, Code, True, Code3
     elif Code == DevCode and Code not in redeemedCodes:
         print(f'\n/---------------------------\\\nThe code {Code} has been redeemed Successfully for $10000')
         currentCash += 10000
@@ -45,7 +52,7 @@ def shop(currentCash, currentMultiplier, currentCost, currentRebirth, currentReb
                 currentCost -= (currentCost - 100)
                 currentRebCost += 10
                 currentRebirth += 1
-                print(f'\n/---------------------------\\\n\nYou now have {currentRebirth} rebirths!')
+                print(f'\n/---------------------------\\\nYou now have {currentRebirth} rebirths!')
                 return currentCash, currentMultiplier, currentCost, currentRebirth, currentRebCost
             else:
                 print('\n/---------------------------\\\nYou don\'t have enough for this transaction')
@@ -108,8 +115,13 @@ if isFile:
     sleep(1)
     with open('data.json', 'r') as file:
         collectedData = file.read()
-    
-    obj = json.loads(collectedData)
+
+    encodedData = collectedData
+    encodedDataBytes = encodedData.encode('ascii')
+    encodedMessageBytes = base64.b64decode(encodedDataBytes)
+    decdata = encodedMessageBytes.decode('ascii')
+
+    obj = json.loads(decdata)
 
     cash = obj['cash']
     multiplier = obj['multiplier']
@@ -123,7 +135,7 @@ if isFile:
 else:
     pass
 
-print('\n/---------------------------\\\nRelease 1.0.0')
+print('\n/---------------------------\\\nRelease 1.2.0')
 
 # main game loop
 run = True
@@ -154,7 +166,6 @@ while run:
             f = open("data.json","w")
 
             data = {
-                "MESSAGE PLEASE READ": "IF YOU MODIFY THIS FILE IT MAY CAUSE YOUR SAVE FILE TO BE CORRUPTED (You have been warned!)",
                 "cash": cash,
                 "multiplier": multiplier,
                 "multiCost": multiCost,
@@ -163,10 +174,15 @@ while run:
                 "redeemedCodes": redeemedCodes
             }
 
-            json_object = json.dumps(data, indent = 4)
+            jsonData = json.dumps(data, indent = 4)
+
+            message = jsonData
+            message_bytes = message.encode('ascii')
+            base64_bytes = base64.b64encode(message_bytes)
+            encdata = base64_bytes.decode('ascii')
 
             with open('data.json', 'w') as file:
-                file.write(json_object)
+                file.write(encdata)
 
             print('Saved!')
             sleep(1)
