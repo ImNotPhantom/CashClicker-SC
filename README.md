@@ -7,7 +7,7 @@ Don't bully me for my mess of a code ;-;
 
 To carry over save data drag and drop the data.json file that got created over to the new directory!
 
-Codes (As of right now):
+## Codes (As of right now):
 
 - Release - $100 (IN GAME CASH)
 
