@@ -16,3 +16,6 @@ To carry over save data drag and drop the data.json file that got created over t
 - Update2 - $300
 
 ^^codes must be capitalized exactly like here
+
+# THERE WILL BE NO ADDITIONAL UPDATES AFTER THE PETS🥚
+## Rewrite soon
